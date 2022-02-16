@@ -1,0 +1,11 @@
+
+
+###a workflow for running small variant calling and annotation in human samples with Clair3
+
+nextflow run epi2me-labs/wf-clair \
+--bam BAM alignment file of reads to genomic reference \
+--ref Reference .fasta file. A corresponding .fai file must also be present \
+--bed A BED file describing regions to process \
+--model Clair3 Model directory \
+--out_dir Directory for output of all user-facing files \
+-profile conda

@@ -1,0 +1,8 @@
+cat<<'EOT'>> flye.sh
+#!/bin/bash
+
+flye \
+--nano-hq /mnt/lustre/groups/sgdp_nanopore/20_01_22/all_guppy.fastq.gz \
+--out-dir ./
+
+EOT

@@ -1,0 +1,9 @@
+###a workflow for the prediction and review of structural variants from whole human genome sequencing data.
+
+nextflow run epi2me-labs/wf-human-sv \
+--fastq Directory containing fastq input files \
+--bam Pass a BAM file instead of fastq in order to skip the alignment steps and go straight to SV calling \
+--bai BAM file index that accompanies and is required for use with --bam \
+--reference FASTA format reference sequence \
+--out_dir Directory for output of all user-facing files \
+-profile conda

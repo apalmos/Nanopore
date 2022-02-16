@@ -1,0 +1,13 @@
+cat<<'EOT'>> nextflow_alignment.sh
+#!/bin/bash
+#SBATCH -n 4
+#SBATCH --mem-per-cpu=9G
+#SBATCH -t 72:00:00
+
+nextflow run epi2me-labs/wf-alignment \
+--fastq /scratch/groups/sgdp_nanopore/20_01_22/Alish_sample1_continue/20220119_1148_1E_PAI08255_6c678519/fastq_pass/ \
+--references /scratch/groups/sgdp_nanopore/Resources/ \
+--out_dir /scratch/groups/sgdp_nanopore/20_01_22/test_align/output/ \
+-profile conda
+
+EOT
