@@ -8,7 +8,7 @@ cat<<'EOT'>> align_sam.sh
 --MD \
 -x map-ont \
 /scratch/groups/sgdp_nanopore/Resources/human_g1k_v37.fasta \
-/mnt/lustre/groups/sgdp_nanopore/20_01_22/all_run_2.gz \
+/mnt/lustre/groups/sgdp_nanopore/20_01_22/all_run_1.gz \
 > aln.sam
 
 EOT

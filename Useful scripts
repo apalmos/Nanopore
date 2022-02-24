@@ -1,0 +1,80 @@
+
+
+bonito basecaller dna_r10.4_e8.1_sup@v3.4 /fast5 > /reads.fastq
+
+bonito basecaller dna_r10.4_e8.1_sup@v3.4 ../Alish_sample1/20220118_1558_1F_PAI08255_70f005aa/fast5_pass/ > basecalls.bam
+
+ANALYSIS:
+
+install Docker (https://docs.docker.com/engine/install/ubuntu/)
+
+Workflows: https://labs.epi2me.io/wfindex/
+- alignment
+- small variant calling & annotation
+- structural variant calling
+
+Quickstart with example: https://labs.epi2me.io/wfquickstart/
+
+nextflow run epi2me-labs/wf-alignment --help
+
+
+cat<<'EOT'>> test.sh
+#!/bin/bash
+#SBATCH -n 4
+#SBATCH --mem-per-cpu=9G
+#SBATCH -t 72:00:00
+
+nextflow run epi2me-labs/wf-alignment \
+--fastq /scratch/groups/sgdp_nanopore/20_01_22/Alish_sample1/20220118_1558_1F_PAI08255_70f005aa/fastq_pass/ \
+--out_dir /scratch/groups/sgdp_nanopore/20_01_22/test_align \
+--sample Alish_sample1 \
+--references /scratch/groups/sgdp_nanopore/Resources/human_g1k_v37.fasta.gz \
+-profile conda
+EOT
+
+cat<<'EOT'>> sample_sheet
+barcode,sample_id,alias,type
+NA,Alish_sample1,test1,test_sample
+EOT
+
+
+
+
+
+
+cat *.fastq.gz > all_guppy.fastq.gz
+
+./minimap2-2.24_x64-linux/minimap2 \
+-x map-ont \
+-x ava-ont \
+/scratch/groups/sgdp_nanopore/Resources/human_g1k_v37.fasta.gz \
+/scratch/groups/sgdp_nanopore/20_01_22/Alish_sample1/20220118_1558_1F_PAI08255_70f005aa/fastq_pass/all_guppy.fastq.gz \
+| gzip -1 > ./minimap.paf.gz
+
+./miniasm/miniasm -2S6 \
+-f /scratch/groups/sgdp_nanopore/20_01_22/Alish_sample1/20220118_1558_1F_PAI08255_70f005aa/fastq_pass/all_guppy.fastq.gz \
+./minimap.paf.gz > miniasm.gfa
+
+
+
+awk '/^S/{print ">"$2"\n"$3}' miniasm.gfa > miniasm.fasta
+
+assembly-stats ./miniasm.fasta
+
+
+Flye
+
+flye --nano-raw \
+~/course_data/precompiled/all_guppy.fastq \
+--genome-size 1m --out-dir ./flye_output
+
+seqstats miniasm.fasta
+
+./minimap2-2.24_x64-linux/minimap2 \
+-x map-ont \
+-x ava-ont \
+--MD \
+-a \
+/scratch/groups/sgdp_nanopore/Resources/human_g1k_v37.fasta.gz \
+/scratch/groups/sgdp_nanopore/20_01_22/Alish_sample1/20220118_1558_1F_PAI08255_70f005aa/fastq_pass/all_guppy.fastq.gz \
+> mapped.sam

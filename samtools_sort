@@ -6,7 +6,7 @@ cat<<'EOT'>> samtools.sh
 module load apps/samtools
 
 ######output SAM file to BAM file
-samtools view -S -b aln.sam > mapped.bam
+samtools view -S -b aln_large_indel.sam > mapped.bam
 
 echo 'finished making bam'
 
