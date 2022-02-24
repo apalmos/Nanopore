@@ -1,0 +1,11 @@
+cat<<'EOT'>> nucmer.sh
+#!/bin/bash
+#SBATCH -n 4
+#SBATCH --mem-per-cpu=9G
+
+nucmer \
+-p output \
+/scratch/groups/sgdp_nanopore/20_01_22/analysis/assembly/Homo_sapiens.GRCh37.dna.chromosome.13.fa \
+/scratch/groups/sgdp_nanopore/20_01_22/analysis/assembly/miniasm.fasta
+
+EOT

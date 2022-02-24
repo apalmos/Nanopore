@@ -1,0 +1,4 @@
+cat<<'EOT'>> mummer.sh
+#!/bin/bash
+#SBATCH -n 4
+#SBATCH --mem-per-cpu=9G
