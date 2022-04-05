@@ -1,0 +1,14 @@
+cat<<'EOT'>> align_sam.sh
+#!/bin/bash
+#SBATCH -n 4
+#SBATCH --mem-per-cpu=9G
+
+/scratch/groups/sgdp_nanopore/software/minimap2/minimap2 \
+-a \
+--MD \
+-x map-ont \
+/scratch/groups/sgdp_nanopore/Resources/human_g1k_v37.fasta \
+/mnt/lustre/groups/sgdp_nanopore/20_01_22/all_run_1.gz \
+> aln.sam
+
+EOT

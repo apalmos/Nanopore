@@ -1,0 +1,8 @@
+##start pipeline
+
+mkdir QC
+mkdir miniasm
+mkdir error_correction
+mkdir minimap
+
+echo '20_01_22' > date.txt
