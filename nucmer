@@ -9,3 +9,25 @@ nucmer \
 /scratch/groups/sgdp_nanopore/20_01_22/analysis/assembly/miniasm.fasta
 
 EOT
+
+###trying to get VCF out of the output
+
+cat<<'EOT'>> show_snps.sh
+#!/bin/bash
+#SBATCH -n 4
+#SBATCH --mem-per-cpu=9G
+
+show-snps -T output.delta > show_snps
+
+EOT
+
+cat<<'EOT'>> all2vcf.sh
+#!/bin/bash
+#SBATCH -n 4
+#SBATCH --mem-per-cpu=9G
+
+/scratch/groups/sgdp_nanopore/20_01_22/analysis/assembly/all2vcf/all2vcf mummer \
+--snps show_snps \
+--reference Homo_sapiens.GRCh37.dna.chromosome.13.fa \
+
+EOT

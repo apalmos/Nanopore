@@ -1,0 +1,36 @@
+
+
+#first we need to phase the vcf
+
+whatshap phase -o phased.vcf \
+--reference /scratch/groups/sgdp_nanopore/Resources/hg38.fa \
+../variants.vcf \
+../mapped.sorted.bam
+
+#then we need to haplotag our bam file
+
+bcftools sort phased.vcf > sorted.vcf
+bgzip -c sorted.vcf > variants.vcf.gz
+tabix -p vcf variants.vcf.gz
+
+
+whatshap haplotag -o haplotagged.bam \
+--reference /scratch/groups/sgdp_nanopore/Resources/hg38.fa \
+variants.vcf.gz \
+../mapped.sorted.bam
+
+#then we run TRiCoLOR sensor
+
+conda activate tricolorenv
+
+TRiCoLOR SENSoR \
+-bam haplotagged.bam \
+-o OUTPUTSENSOR
+
+#Then we run TRiCoLOR refer
+
+TRiCoLOR REFER \
+-g <REFERENCE.FASTA> \
+-bam <HAPLOTAGGED.BAM> \
+-bed <REPETITIONS.BED> \
+-o <OUTPUTREFER>

@@ -7,3 +7,21 @@ nextflow run epi2me-labs/wf-human-sv \
 --reference FASTA format reference sequence \
 --out_dir Directory for output of all user-facing files \
 -profile conda
+
+nextflow run epi2me-labs/wf-human-sv --fastq <input folder> --reference <reference file>
+
+cat<<'EOT'>> nextflow_sv.sh
+#!/bin/bash
+#SBATCH -n 4
+#SBATCH --mem-per-cpu=9G
+
+nextflow run epi2me-labs/wf-human-sv \
+--fastq /scratch/groups/sgdp_nanopore/20_01_22/fast_pass_one/ \
+--reference /scratch/groups/sgdp_nanopore/Resources/human_g1k_v37.fasta \
+--out_dir ./ \
+-profile conda
+
+EOT
+
+
+nextflow run epi2me-labs/wf-human-sv --help

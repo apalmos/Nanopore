@@ -3,8 +3,42 @@ cat<<'EOT'>> vcf_prep.sh
 #SBATCH -n 4
 #SBATCH --mem-per-cpu=9G
 
+module load apps/samtools
+
+######output SAM file to BAM file
+samtools view -S -b aln.sam > mapped.bam
+
+echo 'finished making bam'
+
+#####sort the BAM file
+samtools sort mapped.bam -o mapped.sorted.bam
+
+echo 'finished sorting bam'
+
+#####index the BAM file
+samtools index mapped.sorted.bam
+
+echo 'finished indexing bam'
+
+#####see what the BAM file is like
+samtools flagstat mapped.sorted.bam
+
+echo 'view bam file'
+
 /scratch/groups/sgdp_nanopore/software/Sniffles-master/bin/sniffles-core-1.0.12/sniffles \
 -m mapped.sorted.bam \
+-v variants.vcf
+
+EOT
+
+
+cat<<'EOT'>> vcf_prep.sh
+#!/bin/bash
+#SBATCH -n 4
+#SBATCH --mem-per-cpu=9G
+
+/scratch/groups/sgdp_nanopore/software/Sniffles-master/bin/sniffles-core-1.0.12/sniffles \
+-m aln.baq.bam \
 -v variants.vcf
 
 EOT
