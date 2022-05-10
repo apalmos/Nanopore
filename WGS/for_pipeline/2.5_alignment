@@ -1,0 +1,50 @@
+cat<<'EOT'>> align.sh
+#!/bin/bash
+#SBATCH -n 10
+#SBATCH --mem-per-cpu=100G
+#SBATCH -t 48:00:00
+
+############ Align to reference using the de-novo genome
+minimap2 \
+-a \
+--MD \
+-x map-ont \
+-t 10 \
+../hg38.fa \
+../QC/nanofilt.fastq.gz \
+> aln.sam
+
+############ Samtools to get a cleaned file
+module load samtools
+
+######output SAM file to BAM file
+samtools view -S -b aln.sam > mapped.bam
+
+echo 'finished making bam'
+
+#####sort the BAM file
+samtools sort mapped.bam -o mapped.sorted.bam
+
+echo 'finished sorting bam'
+
+#####index the BAM file
+samtools index mapped.sorted.bam
+
+echo 'finished indexing bam'
+
+#####see what the BAM file is like
+samtools flagstat mapped.sorted.bam
+
+echo 'run NanoStat for read info'
+
+NanoStat --bam mapped.sorted.bam > read_report.txt
+
+echo 'make a vcf'
+
+############ Get a VCF of the alignments
+sniffles \
+-m mapped.sorted.bam \
+-v variants.vcf \
+--reference ../hg38.fa
+
+EOT

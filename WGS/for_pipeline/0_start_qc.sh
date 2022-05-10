@@ -4,9 +4,9 @@ cat<<'EOT'>> start_QC.sh
 #SBATCH --mem-per-cpu=19G
 #SBATCH -t 48:00:00
 
-date=../`cat date.txt`
+date=`cat ../date.txt`
 
-ls /scratch/groups/sgdp_nanopore/${date}/fastq_pass > all.txt
+ls ../../fastq_pass > all.txt
 mkdir output
 
 while IFS=$'\t' read -r -a myArray
@@ -29,14 +29,14 @@ cat<<'EOT'>> QC.sh
 #SBATCH -t 48:00:00
 
 file=$1
-date=`cat date.txt`
+date=`cat ../date.txt`
 
-##porechop -i /scratch/groups/sgdp_nanopore/${date}/fastq_pass/${file} \
+##porechop -i ../../fastq_pass/${file} \
 ##-o ./output/${file} \
 ##--discard_middle \
 ##--threads 8
 
-gunzip -c /scratch/groups/sgdp_nanopore/${date}/fastq_pass/${file} | NanoFilt \
+gunzip -c ../../fastq_pass/${file} | NanoFilt \
 -l 500 \
 --headcrop 10 \
 > ./output/${file}_nanofilt_trimmed.fastq

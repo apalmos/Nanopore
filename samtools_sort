@@ -6,7 +6,7 @@ cat<<'EOT'>> samtools.sh
 module load apps/samtools
 
 ######output SAM file to BAM file
-samtools view -S -b aln_large_indel.sam > mapped.bam
+samtools view -S -b output.sam > mapped.bam
 
 echo 'finished making bam'
 
@@ -24,5 +24,16 @@ echo 'finished indexing bam'
 samtools flagstat mapped.sorted.bam
 
 echo 'view bam file'
+
+EOT
+
+cat<<'EOT'>> samtools.sh
+#!/bin/bash
+#SBATCH -n 4
+#SBATCH --mem-per-cpu=18G
+
+module load apps/samtools
+
+samtools calmd -b mapped.sorted.bam /scratch/groups/sgdp_nanopore/Resources/human_g1k_v37.fasta > aln.baq.bam
 
 EOT
