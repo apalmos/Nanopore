@@ -15,7 +15,16 @@ module load apps/samtools
 samtools sort -@ 8 -o aln.bam aln.sam
 samtools index -@ 8 aln.bam
 
-cuteSV mapped.sorted.bam /scratch/groups/sgdp_nanopore/Resources/human_g1k_v37.fasta call.vcf ./ \
+ /users/k1463257/.local/bin/cuteSV \
+ mapped.sorted.bam \
+ ../hg38.fa \
+ cute.vcf \
+ ./
+
+ <sorted.bam> <reference.fa> <output.vcf> <work_dir>
+
+
+  mapped.sorted.bam /scratch/groups/sgdp_nanopore/Resources/human_g1k_v37.fasta call.vcf ./ \
     --max_cluster_bias_INS 100 \
     --diff_ratio_merging_INS 0.3 \
     --max_cluster_bias_DEL 100 \
