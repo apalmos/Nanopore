@@ -1,4 +1,3 @@
-cat<<'EOT'>> 2.5_alignment.sh
 #!/bin/bash
 #SBATCH -n 10
 #SBATCH --mem-per-cpu=100G
@@ -6,18 +5,16 @@ cat<<'EOT'>> 2.5_alignment.sh
 #SBATCH -o 2.5_alignment
 
 directory=`cat directory.txt`
-fasta_file=$1
+file=$1
 
 ############ Align to reference using the de-novo genome
 minimap2 \
 -a \
 --MD \
--I 50G \
 -x map-ont \
--r 1k,20k \
--t 16 \
-${directory}/hg38.fa \
-${directory}/QC/nanofilt.fa \
+-t 10 \
+${directory}/human_g1k_v37.fasta \
+${directory}/QC/${file} \
 > ${directory}/alignment/aln.sam
 
 ############ Samtools to get a cleaned file
@@ -45,24 +42,13 @@ echo 'run NanoStat for read info'
 
 NanoStat --bam ${directory}/alignment/mapped.sorted.bam > read_report.txt
 
+NanoStat --bam mapped.sorted.bam > read_report.txt
+
+
 echo 'make a vcf'
 
 ############ Get a VCF of the alignments
 sniffles \
---input ${directory}/alignment/mapped.sorted.bam \
---vcf ${directory}/alignment/variants.vcf \
---reference ${directory}/hg38.fa
-
-EOT
-
-cat<<'EOT'>> make_fasta.sh
-#!/bin/bash
-#SBATCH -n 10
-#SBATCH --mem-per-cpu=100G
-#SBATCH -t 48:00:00
-
-module load apps/samtools
-
-samtools bam2fq ${input} > output.fa
-
-EOT
+--input ${directory}/assembly/wtdbg2//mapped.sorted.bam \
+--vcf ${directory}/assembly/wtdbg2//variants.vcf \
+--reference ${directory}/human_g1k_v37.fasta
