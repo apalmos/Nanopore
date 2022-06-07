@@ -2,7 +2,7 @@
 #SBATCH -n 10
 #SBATCH --mem-per-cpu=100G
 #SBATCH -t 48:00:00
-#SBATCH -o 2.alignment_1KG
+#SBATCH -o alignment_1KG
 
 directory=`cat directory.txt`
 file=$1
