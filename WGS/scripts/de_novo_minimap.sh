@@ -51,4 +51,4 @@ echo 'make a vcf'
 sniffles \
 --input ${directory}/assembly/mapped.sorted.bam \
 --vcf ${directory}/assembly/variants2.vcf \
---reference ${directory}/human_g1k_v37.fasta
+--reference ../Resources/human_g1k_v37.fasta

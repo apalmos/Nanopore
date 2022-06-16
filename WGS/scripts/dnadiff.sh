@@ -8,13 +8,13 @@ directory=`cat directory.txt`
 file=$1
 
 nucmer \
-${directory}/human_g1k_v37.fasta \
+../Resources/human_g1k_v37.fasta \
 ../consensus/${file}
 
 dnadiff -p ref \
-${directory}/human_g1k_v37.fasta \
+../Resources/human_g1k_v37.fasta \
 ../consensus/${file}
 
 nucdiff \
-${directory}/human_g1k_v37.fasta \
+../Resources/human_g1k_v37.fasta \
 ../consensus/${file}

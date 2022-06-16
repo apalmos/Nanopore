@@ -13,7 +13,7 @@ minimap2 \
 --MD \
 -x map-ont \
 -t 10 \
-${directory}/human_g1k_v37.fasta \
+../Resources/human_g1k_v37.fasta \
 ${directory}/QC/${file} \
 > ${directory}/alignment/aln.sam
 
@@ -51,4 +51,4 @@ echo 'make a vcf'
 sniffles \
 --input ${directory}/assembly/wtdbg2//mapped.sorted.bam \
 --vcf ${directory}/assembly/wtdbg2//variants.vcf \
---reference ${directory}/human_g1k_v37.fasta
+--reference ../Resources/human_g1k_v37.fasta \

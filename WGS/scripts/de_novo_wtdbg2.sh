@@ -34,7 +34,9 @@ NanoStat --fasta ${directory}/assembly/dbg.cns.fa
 
 bwa index ${directory}/assembly/dbg.cns.fa
 
-minimap2 -x asm20 -a --MD -t 8 ${directory}/human_g1k_v37.fasta ${directory}/assembly/dbg.cns.fa > ${directory}/assembly/AONT.sam
+minimap2 -x asm20 -a --MD -t 8 \
+../Resources/human_g1k_v37.fasta \
+ ${directory}/assembly/dbg.cns.fa > ${directory}/assembly/AONT.sam
 
 #awk '{if($1==$6){print}}' ${directory}/assembly/AONT_miniasm.paf > ${directory}/assembly/AONT_miniasm_self.paf
 
@@ -68,4 +70,4 @@ echo 'make a vcf'
 sniffles \
 --input ${directory}/assembly/mapped.sorted.bam \
 --vcf ${directory}/assembly/variants.vcf \
---reference ${directory}/human_g1k_v37.fasta
+--reference ../Resources/human_g1k_v37.fasta
