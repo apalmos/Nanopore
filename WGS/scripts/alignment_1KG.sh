@@ -4,7 +4,7 @@
 #SBATCH -t 48:00:00
 #SBATCH -o alignment_1KG
 
-directory=`cat directory.txt`
+directory=$(pwd)
 file=$1
 
 ############ Align to reference using the de-novo genome

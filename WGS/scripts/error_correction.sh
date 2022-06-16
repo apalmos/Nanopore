@@ -4,7 +4,7 @@
 #SBATCH -t 48:00:00
 #SBATCH -o 3_error_correction
 
-directory=`cat directory.txt`
+directory=$(pwd)
 file=$1
 
 minipolish \

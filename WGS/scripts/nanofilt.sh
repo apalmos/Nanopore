@@ -5,7 +5,7 @@
 #SBATCH -o 1_QC
 
 file=$1
-directory=`cat directory.txt`
+directory=$(pwd)
 
 gunzip -c ${directory}/fastq_pass/${file} | NanoFilt \
 -l 500 \

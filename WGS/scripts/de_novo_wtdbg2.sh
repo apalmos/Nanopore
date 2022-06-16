@@ -5,7 +5,7 @@
 #SBATCH -o de_novo_wtdbg2
 
 file=dummy_original.fastq.gz
-directory=`cat directory.txt`
+directory=$(pwd)
 
 ######assemble reads
 ./wtdbg2/wtdbg2 -x ont -i \

@@ -4,7 +4,7 @@
 #SBATCH -t 48:00:00
 #SBATCH -o de_novo_minimap
 
-directory=`cat directory.txt`
+directory=$(pwd)
 file=$1
 
 minimap2 -X -t 10 -x ava-ont ${directory}/QC/${file} ${directory}/QC/${file} > ${directory}/assembly/AONT.paf

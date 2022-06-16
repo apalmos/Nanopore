@@ -4,7 +4,7 @@
 #SBATCH -t 48:00:00
 #SBATCH -o 5_scaffold
 
-directory=`cat directory.txt`
+directory=$(pwd)
 file=$1
 
 longstitch run draft=${directory}/assembly/dbg.cns \
