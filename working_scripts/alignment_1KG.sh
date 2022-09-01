@@ -40,15 +40,23 @@ samtools flagstat ${directory}/alignment/mapped.sorted.bam
 
 echo 'run NanoStat for read info'
 
-NanoStat --bam ${directory}/alignment/mapped.sorted.bam > read_report.txt
+NanoStat --bam ${directory}/alignment/mapped.sorted.bam > ${directory}/alignment/read_report.txt
 
-NanoStat --bam mapped.sorted.bam > read_report.txt
+#####calculate depth of sequencing
+echo 'calculate depth of sequencing reads'
+#all genome
+samtools depth -a ${directory}/alignment/mapped.sorted.bam |  awk '{sum+=$3} END { print "Average = ",sum/NR}' > ${directory}/alignment/depth_all.txt
 
+#where there are any reads
+samtools depth ${directory}/alignment/mapped.sorted.bam |  awk '{sum+=$3} END { print "Average = ",sum/NR}' > ${directory}/alignment/depth_reads.txt
 
+echo 'done calculating depth'
+
+#####make a VCF of all data
 echo 'make a vcf'
 
 ############ Get a VCF of the alignments
 sniffles \
---input ${directory}/assembly/wtdbg2//mapped.sorted.bam \
---vcf ${directory}/assembly/wtdbg2//variants.vcf \
+--input ${directory}/alignment//mapped.sorted.bam \
+--vcf ${directory}/alignment//variants.vcf \
 --reference ../Resources/human_g1k_v37.fasta \

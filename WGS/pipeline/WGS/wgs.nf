@@ -119,18 +119,3 @@ process nanPlot {
   NanoPlot -t 12 --color yellow --bam ${sortedbam} --downsample 10000 -o bamplots_downsampled
   """
 }
-
-process duet {
-  publishDir 'alignment_output/'
-  conda '/users/k1463257/.conda/envs/duet'
-
-  input:
-  tuple val(all_files) from sorted
-
-  output:
-  file "duet_*" into duets
-
-  '''
-  duet ${all_files} ${reference} ./duet_output
-  '''
-}
