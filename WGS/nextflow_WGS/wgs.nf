@@ -3,6 +3,26 @@
 split_fastq = Channel.fromPath("$PWD/fastq_split/fast*")
 reference = file("/scratch/prj/sgdp_nanopore/Resources/hg38.fa")
 
+process fastqc {
+
+  publishDir 'alignment_output/fastqc/', mode: 'copy'
+
+  input:
+  path query_file from split_fastq.collect()
+
+  output:
+  path "*"
+
+  script:
+  """
+  cat ${query_file} > whole_run.fastq.gz
+  module load fastqc
+  fastqc whole_run.fastq.gz
+  """
+}
+
+split_fastq = Channel.fromPath("$PWD/fastq_split/fast*")
+
 process aligAndconvert {
 
   scratch "$PWD/work"
