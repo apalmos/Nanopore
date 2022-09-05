@@ -59,4 +59,4 @@ echo 'make a vcf'
 sniffles \
 --input ${directory}/alignment//mapped.sorted.bam \
 --vcf ${directory}/alignment//variants.vcf \
---reference ../Resources/human_g1k_v37.fasta \
+--reference ../Resources/human_g1k_v37.fasta

@@ -3,21 +3,39 @@
 split_fastq = Channel.fromPath("$PWD/fastq_split/fast*")
 reference = file("/scratch/prj/sgdp_nanopore/Resources/hg38.fa")
 
+process remerge {
+
+  publishDir 'alignment_output/fastqc/', mode: 'copy'
+
+  input:
+  path fastq from split_fastq.collect()
+
+  output:
+  path 'merged.gz' into concat
+
+  script:
+  """
+  for treeFile in ${fastq}
+    do
+      cat \$treeFile >> merged.gz
+    done
+  """
+}
+
 process fastqc {
 
   publishDir 'alignment_output/fastqc/', mode: 'copy'
 
   input:
-  path query_file from split_fastq.collect()
+  path merged from concat
 
   output:
   path "*"
 
   script:
   """
-  cat ${query_file} > whole_run.fastq.gz
   module load fastqc
-  fastqc whole_run.fastq.gz
+  fastqc -t 8 ${merged}
   """
 }
 

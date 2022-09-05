@@ -18,14 +18,14 @@ process fastqc {
   """
 }
 
-split_fastq = Channel.fromPath("$PWD/fastq_split/barcode*")
+split_fastq_nanoplot = Channel.fromPath("$PWD/fastq_split/barcode*")
 
 process nanoplot {
 
   publishDir 'alignment_output/nanoplot/', mode: 'copy'
 
   input:
-  path query_file from split_fastq
+  path query_file from split_fastq_nanoplot
 
   output:
   path "${query_file}_*"
