@@ -9,7 +9,7 @@ Under nextflow_WGS you will find the Nextflow script for running the WGS pipelin
 - resume_nextflow can be used to simply re-launch Nextflow with all cached analyses (from where you left off)
 - nextflow.config is a file used to input configurations into the pipeline. It's currently empty so that the pipeline can remain generic. 
 
-### Note: the pipeline outputs files into alignment_output folder. The VCF (and/or other files) can then be used for downstream applications, as required. 
+### Note: the pipeline outputs files into alignment_output folder. The VCF (and/or other files) can then be used for downstream applications, as required. In addition, the piepline is not yet set-up for barcoding. For barcoded runs, in the 'start_nextflow.sh' script, there will need to be a loop to specify the directories of barcodes.  
 
 ## RNAseq
 Uunder nextflow_RNAseq you wil find similar scripts, but for RNAseq on Nanopore data. You will need to copy them into your project directory (containing 'fastq_pass', 'fastq_fail' etc. folders).
