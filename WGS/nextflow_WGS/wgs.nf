@@ -53,7 +53,7 @@ process aligAndconvert {
 
   script:
   """
-  minimap2 -a --MD -x map-ont -u b -t 10 ${reference} ${query_file} | samtools view -b -o ${query_file}.bam
+  minimap2 -a --MD -x map-ont -t 10 ${reference} ${query_file} | samtools view -b -o ${query_file}.bam
   """
 }
 
